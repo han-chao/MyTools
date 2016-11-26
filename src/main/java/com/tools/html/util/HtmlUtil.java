@@ -1,9 +1,12 @@
 package com.tools.html.util;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import org.jsoup.Jsoup;
@@ -46,9 +49,19 @@ public class HtmlUtil {
 	 */
 	public static String formatHtml(File file) {
 		String result = "";
+		StringBuilder html=new StringBuilder();
 		try {
-			Document doc = Jsoup.parse(file, "UTF-8");
-			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+			BufferedReader bufferedReader = new BufferedReader(	new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			String temp="";
+			while((temp=bufferedReader.readLine())!=null){
+				temp=temp.trim()+"\n";
+				if(!temp.equals("\n")){
+					html.append(temp);
+				}
+			}
+			bufferedReader.close();
+			Document doc = Jsoup.parse(html.toString(), "UTF-8");
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 			bufferedWriter.write(doc.toString());
 			bufferedWriter.flush();
 			bufferedWriter.close();
