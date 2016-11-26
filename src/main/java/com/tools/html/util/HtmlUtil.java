@@ -2,8 +2,9 @@ package com.tools.html.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,7 +48,7 @@ public class HtmlUtil {
 		String result = "";
 		try {
 			Document doc = Jsoup.parse(file, "UTF-8");
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
 			bufferedWriter.write(doc.toString());
 			bufferedWriter.flush();
 			bufferedWriter.close();
